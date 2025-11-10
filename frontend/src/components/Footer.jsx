@@ -1,4 +1,4 @@
- import React from "react";
+import React from "react";
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -99,7 +99,7 @@ export default function Footer() {
                 >
                   849 Fairmount Ave, Suite
                   <br />
-                 200-T8 Towson, MD 21286, USA
+                  200-T8 Towson, MD 21286, USA
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -165,6 +165,17 @@ export default function Footer() {
           <div className="text-center md:text-left">
             © {new Date().getFullYear()} Autism ABA Partners. All Rights
             Reserved.
+          </div>
+          <div className="text-center md:text-left">
+            Developed by{" "}
+            <a
+              href="https://www.webieapp.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 transition"
+            >
+              Webieapp
+            </a>
           </div>
         </div>
       </div>
