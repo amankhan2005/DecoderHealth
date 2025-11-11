@@ -1,22 +1,14 @@
  // controllers/contact.controller.js
+// Autism ABA Partners - contact controller (clean admin + premium user emails)
+
 import nodemailer from "nodemailer";
-import ContactLead from "../models/contact.models.js"; // optional, you had it already
-import process from "process";
+import ContactLead from "../models/contact.models.js"; // kept for other controllers (list/delete/getById)
 
-let sendgrid;
-try {
-  // optional dependency
-  // eslint-disable-next-line import/no-unresolved
-  sendgrid = (await import("@sendgrid/mail")).default;
-} catch (e) {
-  // not installed or not using sendgrid, that's fine
-  sendgrid = null;
-}
-
-// Utility
+// Utility functions
 function missingFields(body, fields) {
-  return fields.filter((f) => body[f] === undefined || body[f] === null || body[f] === "");
+  return fields.filter((f) => !body[f] && body[f] !== 0);
 }
+
 function escapeHtml(str = "") {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -26,48 +18,16 @@ function escapeHtml(str = "") {
     .replace(/'/g, "&#039;");
 }
 
-// --- Transporter factories ---
-function createGmailTransporter() {
+// Create transporter
+function createTransporter() {
   return nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    service: "gmail",
     auth: {
       user: process.env.ADMIN_EMAIL,
-      pass: process.env.ADMIN_EMAIL_PASSWORD, // App password recommended
+      pass: process.env.ADMIN_EMAIL_PASSWORD,
     },
     tls: { rejectUnauthorized: false },
   });
-}
-
-function createGenericSmtpTransporter() {
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: (process.env.SMTP_SECURE === "true") || false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-}
-
-// choose transporter or provider based on env
-async function getMailer() {
-  const mode = (process.env.MAIL_MODE || "GMAIL").toUpperCase(); // GMAIL | SMTP | SENDGRID
-  if (mode === "SENDGRID") {
-    if (!sendgrid) throw new Error("SendGrid mode selected but @sendgrid/mail not installed");
-    if (!process.env.SENDGRID_API_KEY) throw new Error("SENDGRID_API_KEY missing");
-    sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
-    return { mode: "SENDGRID", client: sendgrid };
-  }
-  if (mode === "SMTP") {
-    const transporter = createGenericSmtpTransporter();
-    return { mode: "SMTP", client: transporter };
-  }
-  // default to Gmail SMTP
-  const transporter = createGmailTransporter();
-  return { mode: "GMAIL", client: transporter };
 }
 
 // --------------------------- MAIN HANDLER ---------------------------
@@ -87,18 +47,22 @@ export const createInquiry = async (req, res) => {
     bestTimeToReach,
     leadSource,
     utm,
-  } = req.body || {};
+  } = req.body;
 
   const required = ["parentName", "email", "phone", "message"];
-  const missing = missingFields(req.body || {}, required);
-  if (missing.length > 0) {
+  const missing = missingFields(req.body, required);
+  if (missing.length > 0)
     return res.status(400).json({
       ok: false,
       message: `Missing required fields: ${missing.join(", ")}`,
     });
-  }
 
   try {
+    // ----------------- NOTE -----------------
+    // MongoDB save removed here intentionally.
+    // We build a `saved` object in-memory (not persisted) and use it below for emails & response.
+    // ----------------------------------------
+
     const saved = {
       parentName: parentName?.trim() || "",
       email: String(email).trim().toLowerCase(),
@@ -120,7 +84,10 @@ export const createInquiry = async (req, res) => {
       createdAt: new Date(),
     };
 
-    // --- Prepare email content (same as you had) ---
+    // ---------------- EMAIL SETUP ----------------
+    const transporter = createTransporter();
+
+    // ---------- 1️⃣ ADMIN EMAIL (CLEAN + SIMPLE) ----------
     const adminSubject = `New Inquiry — ${saved.parentName}`;
     const adminText = `
 Autism ABA Partners — New Inquiry
@@ -196,6 +163,7 @@ User Agent: ${saved.userAgent || "N/A"}
 </html>
 `.trim();
 
+    // ---------- 2️⃣ USER "THANK YOU" EMAIL ----------
     const userSubject = `Thank You — Autism ABA Partners`;
     const userText = `
 Hello ${saved.parentName},
@@ -244,100 +212,38 @@ info@autismabapartners.com
 </html>
 `.trim();
 
-    // --- Get mailer ---
-    let mailer;
-    try {
-      mailer = await getMailer();
-    } catch (err) {
-      console.error("Mailer init error:", err);
-      return res.status(500).json({
-        ok: false,
-        message: "Mailer initialization failed. Check MAIL_MODE and env vars.",
-        error: err?.message || err,
-      });
-    }
-
-    // --- SEND using chosen mode ---
-    if (mailer.mode === "SENDGRID") {
-      // using @sendgrid/mail
-      try {
-        const adminMsg = {
-          to: process.env.ADMIN_EMAIL,
-          from: process.env.FROM_EMAIL || process.env.ADMIN_EMAIL,
-          subject: adminSubject,
-          text: adminText,
-          html: adminHtml,
-        };
-        const userMsg = {
-          to: saved.email,
-          from: process.env.FROM_EMAIL || process.env.ADMIN_EMAIL,
-          subject: userSubject,
-          text: userText,
-          html: userHtml,
-        };
-
-        const [adminRes, userRes] = await Promise.all([
-          mailer.client.send(adminMsg),
-          mailer.client.send(userMsg),
-        ]);
-        console.log("SendGrid adminRes:", adminRes?.[0]?.statusCode || adminRes);
-        console.log("SendGrid userRes:", userRes?.[0]?.statusCode || userRes);
-      } catch (err) {
-        console.error("SendGrid send error:", err);
-        return res.status(500).json({
-          ok: false,
-          message: "Failed to send emails via SendGrid. Check SENDGRID_API_KEY and sender verification.",
-          error: err?.message || err,
-        });
+    // ---------- Send both ----------
+    transporter.sendMail(
+      {
+        from: `"Autism ABA Partners" <${process.env.ADMIN_EMAIL}>`,
+        to: process.env.ADMIN_EMAIL,
+        subject: adminSubject,
+        text: adminText,
+        html: adminHtml,
+      },
+      (err, info) => {
+        if (err) console.error("Admin mail error:", err);
+        else console.log("Admin mail sent:", info?.response || info);
       }
-    } else {
-      // SMTP (GMAIL or generic)
-      const transporter = mailer.client;
-      try {
-        await transporter.verify();
-        console.log("Transporter verified (mode:", mailer.mode, ")");
-      } catch (err) {
-        console.error("Transporter verify failed:", err?.message || err, err);
-        return res.status(500).json({
-          ok: false,
-          message: "SMTP transporter verification failed. Check credentials, ports, or if host blocks outbound SMTP.",
-          error: err?.message || err,
-        });
+    );
+
+    transporter.sendMail(
+      {
+        from: `"Autism ABA Partners" <${process.env.ADMIN_EMAIL}>`,
+        to: saved.email,
+        subject: userSubject,
+        text: userText,
+        html: userHtml,
+      },
+      (err, info) => {
+        if (err) console.error("User mail error:", err);
+        else console.log("User mail sent:", info?.response || info);
       }
+    );
 
-      try {
-        const adminResult = await transporter.sendMail({
-          from: `"Autism ABA Partners" <${process.env.FROM_EMAIL || process.env.ADMIN_EMAIL}>`,
-          to: process.env.ADMIN_EMAIL,
-          subject: adminSubject,
-          text: adminText,
-          html: adminHtml,
-        });
-        console.log("Admin mail sent:", adminResult?.messageId || adminResult);
-
-        const userResult = await transporter.sendMail({
-          from: `"Autism ABA Partners" <${process.env.FROM_EMAIL || process.env.ADMIN_EMAIL}>`,
-          to: saved.email,
-          subject: userSubject,
-          text: userText,
-          html: userHtml,
-        });
-        console.log("User mail sent:", userResult?.messageId || userResult);
-      } catch (err) {
-        // print detailed info if present
-        console.error("SMTP sendMail error:", err?.message || err, err?.response || err);
-        return res.status(500).json({
-          ok: false,
-          message: "Failed to send emails via SMTP. Check server logs for SMTP error.",
-          error: err?.message || err,
-        });
-      }
-    }
-
-    // success
     return res.status(201).json({
       ok: true,
-      message: "Inquiry processed successfully (emails dispatched)",
+      message: "Inquiry processed successfully (not saved to DB)",
       contact: saved,
     });
   } catch (error) {
@@ -350,7 +256,8 @@ info@autismabapartners.com
   }
 };
 
-// --- other controllers unchanged (you can keep as-is) ---
+// ------------------- OTHER CONTROLLERS -------------------
+
 export const getAllInquiry = async (req, res) => {
   try {
     const filter = {};
