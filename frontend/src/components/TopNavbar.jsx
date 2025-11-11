@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6";
 
@@ -22,7 +22,7 @@ export default function TopNavbar() {
           {/* Left Side: Contact Info */}
           <div className="flex items-center gap-6 text-sm">
             <a
-              href="https://maps.google.com/?q=849+Fairmount+Ave,+Suite+200-T8,+Towson,+MD+21286"
+              href="https://maps.google.com/?q=849+Fairmount+Ave,+Suite+200-T8,+Towson,+MD,+21286"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 group transform hover:scale-105 transition-all duration-300"
@@ -31,7 +31,7 @@ export default function TopNavbar() {
                 <FaMapMarkerAlt className="text-white text-sm" />
               </div>
               <span className="group-hover:text-[#FBC02D] transition-colors duration-300 font-semibold tracking-wide">
-                849 Fairmount Ave, Suite 200-T8, Towson, MD 21286
+                849 Fairmount Ave, Suite 200-T8, Towson, MD, 21286
               </span>
             </a>
 
@@ -95,11 +95,11 @@ export default function TopNavbar() {
         </div>
 
         {/* Mobile layout */}
-        <div className="md:hidden flex items-center justify-between py-3">
-          {/* Left: small logo or location icon */}
+        <div className="md:hidden flex justify-between items-center py-3">
+          {/* Left: address + social icons */}
           <div className="flex items-center gap-3">
             <a
-              href="https://maps.google.com/?q=849+Fairmount+Ave,+Suite+200-T8,+Towson,+MD+21286"
+              href="https://maps.google.com/?q=849+Fairmount+Ave,+Suite+200-T8,+Towson,+MD,+21286"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 group"
@@ -109,15 +109,48 @@ export default function TopNavbar() {
               </div>
               <span className="text-sm font-semibold">Towson, MD</span>
             </a>
+
+            {/* Social icons beside address */}
+            <div className="flex items-center gap-2 ml-2">
+              <a
+                href="https://www.facebook.com/share/1WinbTxPSC/?mibextid=wwXIfr"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 bg-white/10 rounded-md hover:bg-[#FBC02D] transition"
+              >
+                <FaFacebookF className="text-white text-xs" />
+              </a>
+
+              <a
+                href="https://www.instagram.com/autismabapartners?igsh=dTl2a2dodWQ3anR2&utm_source=qr"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 bg-white/10 rounded-md hover:bg-[#FBC02D] transition"
+              >
+                <FaInstagram className="text-white text-xs" />
+              </a>
+
+              <a
+                href="https://x.com/ABAPartner"
+                aria-label="Twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 bg-white/10 rounded-md hover:bg-[#FBC02D] transition"
+              >
+                <FaXTwitter className="text-white text-xs" />
+              </a>
+            </div>
           </div>
 
-          {/* Right: toggle button */}
+          {/* Right: dropdown toggle */}
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen((prev) => !prev)}
             aria-expanded={open}
             aria-controls="topbar-mobile"
             className="inline-flex items-center justify-center p-2 rounded-md bg-white/10 hover:bg-white/20"
-            title="Show contact info"
+            title={open ? "Hide contact info" : "Show contact info"}
           >
             <svg
               className={`w-5 h-5 transform transition-transform ${
@@ -164,14 +197,14 @@ export default function TopNavbar() {
             </a>
 
             <a
-              href="https://maps.google.com/?q=849+Fairmount+Ave,+Suite+200-T8,+Towson,+MD+21286"
+              href="https://maps.google.com/?q=849+Fairmount+Ave,+Suite+200-T8,+Towson,+MD,+21286"
               className="flex items-center gap-3 px-2"
             >
               <div className="bg-white/10 p-2 rounded-lg">
                 <FaMapMarkerAlt className="text-white text-sm" />
               </div>
               <span className="font-semibold">
-                849 Fairmount Ave, Towson, MD
+                849 Fairmount Ave, Suite 200-T8, Towson, MD, 21286
               </span>
             </a>
 

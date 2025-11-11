@@ -9,6 +9,7 @@ import FAQ from "./pages/faq"; // Make sure filename matches exactly
 import Contact from "./pages/Contact";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop"; // ✅ Import ScrollToTop component
+import CareerPage from "./pages/Career";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact-us" element={<Contact />} />
+        <Route path="/careers" element={<CareerPage />} />
       </Routes>
 
       <Footer />

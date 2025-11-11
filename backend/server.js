@@ -1,22 +1,23 @@
- // server.js
-import express from 'express';
+ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
 import contactRoutes from './routes/contact.routes.js';
+import careerRoutes from './routes/career.routes.js'; // ✅ Added for Career Page uploads
 
-// load .env
+// Load .env
 dotenv.config();
 
 const app = express();
 
-// Trust proxy (if behind proxies like Render, Heroku, nginx)
+// Trust proxy (important for production)
 app.set('trust proxy', 1);
 
-// Basic security headers
+// Security headers
 app.use(helmet());
 
 // Logging
@@ -33,27 +34,19 @@ app.use(limiter);
 const allowedOrigins = [
   'http://localhost:5173',
   'https://autismpartner.netlify.app',
-    'https://autismabapartners.com',         // ✅ your live domain
-      'autismabapartners.com',         // ✅ your live domain
-
-
+  'https://autismabapartners.com', // ✅ your live domain
+  'autismabapartners.com', // ✅ your live domain
   ...(process.env.ALLOWED_ORIGINS
     ? process.env.ALLOWED_ORIGINS.split(',').map((u) => u.trim())
     : []),
 ].filter(Boolean);
 
-// Primary CORS middleware (safe origin-checking)
 app.use(
   cors({
     origin: (origin, callback) => {
-      // allow requests with no origin (like curl, mobile apps, server-to-server)
-      if (!origin) return callback(null, true);
+      if (!origin) return callback(null, true); // allow mobile, curl, server requests
+      if (allowedOrigins.includes(origin)) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      // Don't throw — respond as "not allowed" so middleware returns no CORS headers
       console.warn(`❌ CORS blocked request from: ${origin}`);
       return callback(null, false);
     },
@@ -72,10 +65,10 @@ app.use(
   })
 );
 
-// Ensure preflight OPTIONS requests are handled and return CORS headers
-app.options('*', cors()); // important for explicit preflight handling
+// Ensure preflight OPTIONS requests are handled
+app.options('*', cors());
 
-// Debugging helper (temporary) to inspect preflight/headers — remove in production if verbose
+// Debugging helper (can remove in prod)
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     console.log('🚦 OPTIONS preflight:', { origin: req.headers.origin, path: req.path });
@@ -115,10 +108,14 @@ if (disableDb) {
     });
 }
 
-// ----------------- Routes -----------------
-app.use('/api/contact', contactRoutes);
+// ----------------- STATIC UPLOADS -----------------
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
-// Basic health-check
+// ----------------- ROUTES -----------------
+app.use('/api/contact', contactRoutes);
+app.use('/api/career', careerRoutes); // ✅ Added Career Page API
+
+// Basic health-check route
 app.get('/', (req, res) => {
   res.json({
     ok: true,
@@ -138,14 +135,18 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   console.error('Unhandled Error:', err?.message || err);
   const status = err.status || 500;
-  // If the error is a CORS "origin not allowed" (callback returned false), send 403
+
   if (err && err.message && err.message.toLowerCase().includes('cors')) {
     return res.status(403).json({ ok: false, message: 'CORS policy: origin not allowed' });
   }
-  res.status(status).json({ ok: false, message: err.message || 'Internal Server Error' });
+
+  res.status(status).json({
+    ok: false,
+    message: err.message || 'Internal Server Error',
+  });
 });
 
-// ----------------- Start Server -----------------
+// ----------------- START SERVER -----------------
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
@@ -168,7 +169,7 @@ const shutdown = async () => {
     }
   });
 
-  // force exit after 10s
+  // Force exit after 10s
   setTimeout(() => {
     console.error('Forcing shutdown');
     process.exit(1);

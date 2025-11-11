@@ -93,6 +93,12 @@ export default function MainNavbar() {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#F57C00] to-[#2E7D32] group-hover:w-full transition-all duration-300"></span>
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/careers" className={navLinkClasses}>
+                Career
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#F57C00] to-[#2E7D32] group-hover:w-full transition-all duration-300"></span>
+              </NavLink>
+            </li>
           </ul>
 
           {/* Contact CTA Button - Enhanced */}
@@ -176,6 +182,7 @@ export default function MainNavbar() {
                   { to: "/about-us", label: "About Us" },
                   { to: "/services", label: "Services" },
                   { to: "/faq", label: "FAQ" },
+                  { to: "/careers", label: "Career" },
                 ].map((item) => (
                   <li key={item.to}>
                     <NavLink

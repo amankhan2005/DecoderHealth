@@ -79,6 +79,14 @@ export default function Footer() {
                   FAQs
                 </a>
               </li>
+              <li>
+                <a
+                  href="/careers"
+                  className="block hover:text-white hover:pl-2 transition-all"
+                >
+                  Careers
+                </a>
+              </li>
             </ul>
           </div>
 
