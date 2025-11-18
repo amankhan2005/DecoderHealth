@@ -1,5 +1,5 @@
  // src/api/settingsService.js
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://autismpartner.onrender.com/api";
 
 async function fetchJson(path, opts = {}) {
   const res = await fetch(`${API_BASE}${path}`, opts);
