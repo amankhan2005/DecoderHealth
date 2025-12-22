@@ -46,6 +46,11 @@ const allowedOrigins = [
    "http://localhost:5174",
   "http://localhost:3000",
   "https://decoderhealth.netlify.app",
+  "https://decoderhealthaba.netlify.app",
+  "https://www.decoderhealth.com",
+  "www.decoderhealth.com",
+  "decoderhealth.com",
+
   
   ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(",").map((u) => u.trim()) : []),
 ].filter(Boolean);
