@@ -8,7 +8,7 @@ export default function ContactUs() {
   const CONTACT_EMAIL = settings?.email || "info@decoderhealth.com";
   const CONTACT_PHONE = settings?.phone || "+1 (571) 530-9004";
   const CONTACT_ADDRESS =
-    settings?.address || " XYZ Street, Suite 100, City, State, ZIP";
+    settings?.address || " Arlington, WA";
   const MAP_LINK =
     settings?.mapLink ||
     `https://maps.google.com/?q=${encodeURIComponent(CONTACT_ADDRESS)}`;

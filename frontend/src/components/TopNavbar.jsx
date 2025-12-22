@@ -10,7 +10,7 @@ export default function TopNavbar() {
 
   const address =
     settings?.address ||
-    " XYZ Street, Suite 100, City, State, ZIP";
+    " Arlington, WA";
   const phone = settings?.phone || "+1 (571) 530-9004";
   const email = settings?.email || "info@decoderhealth.com";
 

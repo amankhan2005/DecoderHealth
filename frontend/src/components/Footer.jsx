@@ -20,8 +20,8 @@ export default function Footer() {
   // -------- DEFAULT VALUES --------
   const defaultEmail = "info@decoderhealth.com";
   const defaultPhone = "+1 (571) 530-9004";
-  const defaultAddress = " XYZ Street, Suite 100, City, State, ZIP";
-  const defaultAddressLink = "https://maps.app.goo.gl/mBkEdBxhhbThS67q7";
+  const defaultAddress = "Arlington, WA";
+  const defaultAddressLink = "https://maps.app.goo.gl/Hd9ZWFgmg6h2tHdv8";
 
   const address = settings?.address || defaultAddress;
   const addressLink = settings?.address

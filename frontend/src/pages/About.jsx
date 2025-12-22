@@ -22,7 +22,7 @@ export default function About() {
   }, []);
 
   const finalAddress =
-    mapAddress || " XYZ Street, Suite 100, City, State, ZIP";
+    mapAddress || "Arlington, WA";
 
   return (
     <div className="bg-white text-gray-800">
