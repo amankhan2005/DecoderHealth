@@ -1,144 +1,121 @@
  import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaBars, FaSignOutAlt, FaSearch } from "react-icons/fa";
+import { FaUserCircle, FaBars, FaSignOutAlt } from "react-icons/fa";
 
-// Constants for better maintainability
-const ANIMATION_DURATION = 300;
 const LOGOUT_DELAY = 1500;
 
-export default function AdminHeader({ isOpen, isExpanded, setIsOpen, onLogout, user }) {
+export default function AdminHeader({
+  isOpen,
+  isExpanded,
+  setIsOpen,
+  onLogout,
+  user,
+}) {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dontAsk, setDontAsk] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  
-  // Refs for DOM manipulation
+
   const menuRef = useRef(null);
   const modalRef = useRef(null);
-  const searchRef = useRef(null);
 
-  // Close dropdown when clicking outside
+  /* Close dropdown on outside click */
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Handle ESC key to close modals
+  /* ESC key */
   useEffect(() => {
-    const handleEscape = (event) => {
-      if (event.key === "Escape") {
+    const handler = (e) => {
+      if (e.key === "Escape") {
+        setShowMenu(false);
         setShowModal(false);
-        setShowMenu(false);
       }
     };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
   }, []);
 
-  // Focus management for modal
-  useEffect(() => {
-    if (showModal && modalRef.current) {
-      modalRef.current.focus();
-    }
-  }, [showModal]);
-
-  // Memoized logout function
   const startLogout = useCallback(() => {
     setShowModal(false);
     setLoading(true);
 
     setTimeout(() => {
-      if (onLogout) onLogout();
+      onLogout?.();
       setLoading(false);
     }, LOGOUT_DELAY);
   }, [onLogout]);
 
-  // Memoized logout handler
   const handleLogout = useCallback(() => {
-    if (dontAsk) startLogout();
-    else setShowModal(true);
+    dontAsk ? startLogout() : setShowModal(true);
   }, [dontAsk, startLogout]);
-
-  // Handle search
-  const handleSearch = useCallback((e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // Navigate to search results or implement search functionality
-      navigate(`/admin/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-    }
-  }, [searchQuery, navigate]);
 
   return (
     <header
       className={`
         fixed top-0 right-0 h-20 md:h-24 w-full z-[900]
-        bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500
-        shadow-xl flex items-center justify-between text-white
+        bg-green-600 shadow-xl
+        flex items-center justify-between text-white
         px-4 sm:px-6 md:px-8 transition-all duration-300
         ${isOpen ? "lg:left-64" : isExpanded ? "lg:left-64" : "lg:left-20"}
       `}
     >
-      {/* Mobile sidebar button */}
+      {/* SIDEBAR TOGGLE — MOBILE */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden p-2.5 bg-white/20 border border-white/30 rounded-xl shadow-md hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-        aria-label="Open sidebar"
+        className="lg:hidden p-2.5 bg-white/20 border border-white/30 rounded-xl hover:bg-white/30 transition"
       >
-        <FaBars className="text-xl text-white" />
+        <FaBars className="text-xl" />
       </button>
 
-      {/* Branding */}
-      <div className="flex items-center gap-4">
-        <h1 className="font-bold text-xl sm:text-2xl md:text-3xl tracking-wide">
-          Autism ABA Partner
-        </h1>
-       </div>
+      {/* BRAND */}
+      <h1 className="font-bold text-xl sm:text-2xl md:text-3xl tracking-wide">
+        PR5-Hearts Admin
+      </h1>
 
-      {/* RIGHT SIDE ACTIONS */}
+      {/* RIGHT SIDE */}
       <div className="flex items-center gap-4">
-        {/* DESKTOP LOGOUT BUTTON */}
+        
+        {/* DESKTOP LOGOUT */}
         <button
           onClick={handleLogout}
-          className="hidden md:flex items-center gap-2 bg-white/20 px-4 py-2 rounded-xl border border-white/30 backdrop-blur-md hover:bg-white/30 transition focus:outline-none focus:ring-2 focus:ring-white/50"
+          className="hidden md:flex items-center gap-2 
+            bg-white/20 px-4 py-2 rounded-xl border border-white/30 
+            hover:bg-white/30 transition"
         >
-          <FaSignOutAlt className="text-lg" />
+          <FaSignOutAlt />
           <span className="font-semibold">Logout</span>
         </button>
 
-        {/* PROFILE BUTTON */}
+        {/* USER MENU */}
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setShowMenu(!showMenu)}
-            className="flex items-center space-x-2 text-white hover:bg-white/20 rounded-full p-1 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-            aria-haspopup="true"
-            aria-expanded={showMenu}
+            className="flex items-center hover:bg-white/20 rounded-full p-1 transition"
           >
-            <FaUserCircle className="h-9 w-9" />
+            <FaUserCircle className="h-10 w-10" />
           </button>
 
           {/* Dropdown */}
           {showMenu && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg overflow-hidden z-20">
               <div className="px-4 py-3 border-b border-gray-200 text-gray-700 text-sm">
-                <div className="font-semibold">{user?.name || "Admin User"}</div>
-               </div>
+                <div className="font-semibold">
+                  {user?.name || "Admin"}
+                </div>
+              </div>
 
-             
-
-              {/* MOBILE LOGOUT */}
               <button
                 onClick={handleLogout}
-                className="w-full flex md:hidden items-center space-x-2 text-red-600 font-medium hover:bg-red-50 px-4 py-2 text-sm transition-colors"
+                className="w-full flex md:hidden items-center space-x-2 
+                  text-red-600 font-medium hover:bg-red-50 px-4 py-2 text-sm"
               >
                 <FaSignOutAlt />
                 <span>Logout</span>
@@ -148,51 +125,54 @@ export default function AdminHeader({ isOpen, isExpanded, setIsOpen, onLogout, u
         </div>
       </div>
 
-      {/* Progress Bar */}
+      {/* TOP PROGRESS BAR */}
       {loading && (
-        <div className="fixed top-0 left-0 w-full h-1 bg-gray-300 z-[999]">
-          <div className="h-full bg-orange-600 animate-[progress_1.5s_linear_forwards]" />
+        <div className="fixed top-0 left-0 w-full h-1 bg-white/20 z-[999]">
+          <div className="h-full bg-green-300 animate-[progress_1.5s_linear_forwards]" />
         </div>
       )}
 
-      {/* Logout modal */}
+      {/* LOGOUT MODAL */}
       {showModal && (
-        <div 
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-[999]"
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[999]"
           onClick={() => setShowModal(false)}
         >
-          <div 
+          <div
             ref={modalRef}
             className="bg-white rounded-2xl shadow-xl p-6 w-80 text-center animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
-            tabIndex="-1"
           >
-            <h2 className="text-lg font-semibold mb-3 text-gray-800">Confirm Logout</h2>
-            <p className="text-gray-600 mb-4">Are you sure you want to log out?</p>
+            <h2 className="text-lg font-semibold mb-3 text-gray-800">
+              Confirm Logout
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Are you sure you want to log out?
+            </p>
 
             <div className="flex items-center justify-center mb-4">
               <input
-                type="checkbox"
                 id="dontAsk"
+                type="checkbox"
                 checked={dontAsk}
                 onChange={() => setDontAsk(!dontAsk)}
-                className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                className="mr-2 h-4 w-4 text-green-600 border-gray-300 rounded"
               />
               <label htmlFor="dontAsk" className="text-sm text-gray-600">
-                Don't ask me again
+                Don't ask again
               </label>
             </div>
 
-            <div className="flex justify-between gap-3">
+            <div className="flex gap-3">
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-gray-400"
+                className="flex-1 px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200"
               >
                 Cancel
               </button>
               <button
                 onClick={startLogout}
-                className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
               >
                 Logout
               </button>
@@ -201,10 +181,10 @@ export default function AdminHeader({ isOpen, isExpanded, setIsOpen, onLogout, u
         </div>
       )}
 
-      {/* Animations */}
+      {/* CSS Animations */}
       <style>{`
-        @keyframes progress { from { width: 0%; } to { width: 100%; } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(.95);} to { opacity:1; transform:scale(1);} }
+        @keyframes progress { 0%{width:0;} 100%{width:100%;} }
+        @keyframes fadeIn { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:scale(1); } }
         .animate-fadeIn { animation: fadeIn .25s ease-out; }
       `}</style>
     </header>

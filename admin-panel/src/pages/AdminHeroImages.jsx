@@ -199,7 +199,7 @@ export default function AdminHeroImages() {
 
   const getFileSizeColor = (size) => {
     if (size > FILE_SIZE_LIMIT) return "text-red-700 bg-red-100";
-    if (size > RECOMMENDED_SIZE) return "text-orange-600 bg-orange-100";
+    if (size > RECOMMENDED_SIZE) return "text-green-600 bg-green-100";
     return "text-green-700 bg-green-100";
   };
 
@@ -224,7 +224,7 @@ export default function AdminHeroImages() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -235,19 +235,19 @@ export default function AdminHeroImages() {
       <div className="relative z-10 max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl shadow-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl shadow-lg mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-green-800 bg-clip-text text-transparent mb-2">Hero Section Manager</h1>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">Hero Section Manager</h1>
           <p className="text-gray-600 text-lg">Manage your hero images and text content</p>
         </div>
 
         {/* Images Upload Section */}
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-8 mb-10 transition-all duration-300 hover:shadow-2xl">
           <div className="flex items-center mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
@@ -261,8 +261,8 @@ export default function AdminHeroImages() {
           <div
             className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${
               dragActive
-                ? "border-orange-500 bg-orange-50"
-                : "border-gray-300 bg-gray-50 hover:border-orange-300 hover:bg-orange-50/50"
+                ? "border-green-500 bg-green-50"
+                : "border-gray-300 bg-gray-50 hover:border-green-300 hover:bg-green-50/50"
             }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
@@ -454,7 +454,7 @@ export default function AdminHeroImages() {
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-8 transition-all duration-300 hover:shadow-2xl">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
@@ -472,7 +472,7 @@ export default function AdminHeroImages() {
               <input
                 value={heroText.heading || ""}
                 onChange={(e) => handleTextChange("heading", e.target.value)}
-                className="w-full border-2 border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                className="w-full border-2 border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 placeholder="Main heading"
               />
             </div>
@@ -482,7 +482,7 @@ export default function AdminHeroImages() {
               <input
                 value={heroText.highlight || ""}
                 onChange={(e) => handleTextChange("highlight", e.target.value)}
-                className="w-full border-2 border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                className="w-full border-2 border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 placeholder="Highlighted phrase"
               />
             </div>
@@ -493,7 +493,7 @@ export default function AdminHeroImages() {
                 value={heroText.subheading || ""}
                 onChange={(e) => handleTextChange("subheading", e.target.value)}
                 rows={3}
-                className="w-full border-2 border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                className="w-full border-2 border-gray-200 p-4 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 placeholder="Short description under heading"
               />
             </div>
@@ -604,7 +604,7 @@ export default function AdminHeroImages() {
             </button>
             <button
               onClick={saveHeroText}
-              className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center"
+              className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V2" />
@@ -642,7 +642,7 @@ export default function AdminHeroImages() {
             <div className={`p-6 ${
               modalType === "success" ? "bg-gradient-to-r from-green-500 to-green-600" :
               modalType === "error" ? "bg-gradient-to-r from-red-500 to-red-600" :
-              modalType === "confirm" ? "bg-gradient-to-r from-orange-500 to-orange-600" :
+              modalType === "confirm" ? "bg-gradient-to-r from-green-500 to-green-600" :
               modalType === "largeFile" ? "bg-gradient-to-r from-yellow-500 to-yellow-600" :
               "bg-gradient-to-r from-blue-500 to-blue-600"
             } rounded-t-2xl`}>
@@ -676,7 +676,7 @@ export default function AdminHeroImages() {
               <h3 className={`text-xl font-bold text-center mb-2 ${
                 modalType === "success" ? "text-green-600" :
                 modalType === "error" ? "text-red-600" :
-                modalType === "confirm" ? "text-orange-600" :
+                modalType === "confirm" ? "text-green-600" :
                 modalType === "largeFile" ? "text-yellow-600" :
                 "text-blue-600"
               }`}>
@@ -716,7 +716,7 @@ export default function AdminHeroImages() {
                     <button onClick={() => setShowModal(false)} className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
                       Cancel
                     </button>
-                    <button onClick={handleModalAction} className="px-6 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors font-medium">
+                    <button onClick={handleModalAction} className="px-6 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors font-medium">
                       Confirm
                     </button>
                   </>

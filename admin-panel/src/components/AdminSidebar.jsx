@@ -105,7 +105,7 @@ export default function AdminSidebar({
     <>
       {/* Mobile trigger button */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-[100] p-3 rounded-full bg-orange-500 text-white shadow-lg hover:scale-110 active:scale-95 transition"
+        className="lg:hidden fixed top-4 left-4 z-[100] p-3 rounded-full bg-yellow-500 text-white shadow-lg hover:scale-110 active:scale-95 transition"
         onClick={() => setIsOpen(true)}
         aria-label="Open sidebar"
       >
@@ -125,7 +125,7 @@ export default function AdminSidebar({
         ref={sidebarRef}
         className={`
           fixed inset-y-0 left-0 z-[100]
-          bg-gradient-to-b from-green-800 via-green-900 to-green-800
+          bg-green-600
           text-white shadow-xl border-r border-green-700/40
           transform transition-all duration-300
           flex flex-col overflow-hidden
@@ -182,8 +182,8 @@ export default function AdminSidebar({
                     flex items-center w-full transition-all px-4 py-3 rounded-xl
                     ${
                       isActive
-                        ? "bg-orange-500 shadow text-white"
-                        : "hover:bg-green-700/70 active:bg-green-600/70"
+                        ? "bg-yellow-500 shadow text-white"
+                        : "hover:bg-green-600 active:bg-green-600/70"
                     }
                     ${isExpanded ? "justify-start gap-3" : "lg:justify-center"}
                     `

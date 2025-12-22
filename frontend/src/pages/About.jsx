@@ -179,7 +179,7 @@ export default function About() {
       </section>
 
       {/* ================= MAP ================= */}
-      <section className="py-12 px-6 bg-white">
+      {/* <section className="py-12 px-6 bg-white">
         <iframe
           title="Decoder Health Location"
           src={`https://www.google.com/maps?q=${encodeURIComponent(
@@ -190,7 +190,7 @@ export default function About() {
           className="rounded-2xl shadow-lg"
           loading="lazy"
         />
-      </section>
+      </section> */}
 
      </div>
   );

@@ -1,4 +1,4 @@
- // src/components/GlobalSettings.jsx
+  // src/components/GlobalSettings.jsx
 import React, { useEffect, useState } from "react";
 import { fetchSettings, updateSettings } from "../api/settingsService";
 
@@ -11,14 +11,17 @@ const FIELDS = [
   "instagram",
   "twitter",
   "tiktok",
+  "youtube", // ✅ ADD
 ];
 
+
 // Section groups
-const SECTIONS = {
+ const SECTIONS = {
   logo: ["logo"],
   contact: ["phone", "email", "address"],
-  social: ["facebook", "instagram", "twitter", "tiktok"]
+  social: ["facebook", "instagram", "twitter", "tiktok", "youtube"] // ✅ ADD
 };
+
 
 function CenterModal({ open, title, message, onCancel, onConfirm, confirmText = "Yes", cancelText = "Cancel" }) {
   if (!open) return null;
@@ -220,14 +223,16 @@ export default function GlobalSettings({ creds }) {
       // prepare values object for fallback frontend update
       const valuesToAppend = {};
       const mapping = {
-        phone: settings.global.phone || "",
-        email: settings.global.email || "",
-        address: settings.global.address || "",
-        facebook: settings.global.facebook || "",
-        instagram: settings.global.instagram || "",
-        twitter: settings.global.twitter || "",
-        tiktok: settings.global.tiktok || "",
-      };
+  phone: settings.global.phone || "",
+  email: settings.global.email || "",
+  address: settings.global.address || "",
+  facebook: settings.global.facebook || "",
+  instagram: settings.global.instagram || "",
+  twitter: settings.global.twitter || "",
+  tiktok: settings.global.tiktok || "",
+  youtube: settings.global.youtube || "", // ✅ ADD
+};
+
       // append only selected fields to FormData (server expects those)
       for (const [key, val] of Object.entries(mapping)) {
         if (selected.includes(key)) {
@@ -264,15 +269,17 @@ export default function GlobalSettings({ creds }) {
       // don't send fieldsToUpdate so backend will use all provided values
       if (logoFile) fd.append("logo", logoFile);
 
-      const valuesToAppend = {
-        phone: settings.global.phone || "",
-        email: settings.global.email || "",
-        address: settings.global.address || "",
-        facebook: settings.global.facebook || "",
-        instagram: settings.global.instagram || "",
-        twitter: settings.global.twitter || "",
-        tiktok: settings.global.tiktok || "",
-      };
+       const valuesToAppend = {
+  phone: settings.global.phone || "",
+  email: settings.global.email || "",
+  address: settings.global.address || "",
+  facebook: settings.global.facebook || "",
+  instagram: settings.global.instagram || "",
+  twitter: settings.global.twitter || "",
+  tiktok: settings.global.tiktok || "",
+  youtube: settings.global.youtube || "", // ✅ ADD
+};
+
 
       for (const [k, v] of Object.entries(valuesToAppend)) {
         fd.append(k, v);
@@ -617,6 +624,41 @@ export default function GlobalSettings({ creds }) {
                     </div>
                   )}
                 </div>
+                {/* YouTube */}
+<div className="flex items-start gap-4">
+  <div className="flex-1">
+    <label className="block text-sm font-bold text-gray-700 mb-2">
+      YouTube
+    </label>
+    <input
+      className={`w-full border-2 p-4 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all ${
+        sectionToggles.social
+          ? "border-gray-200"
+          : "border-gray-200 bg-gray-50"
+      }`}
+      value={g.youtube || ""}
+      onChange={(e) => setField("youtube", e.target.value)}
+      disabled={!sectionToggles.social}
+      placeholder="https://www.youtube.com/@decoderhealth"
+    />
+  </div>
+
+  {sectionToggles.social && (
+    <div className="pt-6">
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={!!toggles.youtube}
+          onChange={() => toggleField("youtube")}
+          className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
+        />
+        <span className="text-sm text-gray-600">Update</span>
+      </label>
+    </div>
+  )}
+</div>
+
+
               </div>
             </div>
           </div>

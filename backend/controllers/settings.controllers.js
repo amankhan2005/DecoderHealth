@@ -12,7 +12,8 @@ async function ensureSettings() {
         facebook: "",
         instagram: "",
         twitter: "",
-        tiktok: ""
+        tiktok: "",
+        youtube: "" // ✅ ADDED
       },
       globalMeta: {
         logoUpdatedAt: null,
@@ -22,7 +23,8 @@ async function ensureSettings() {
         facebookUpdatedAt: null,
         instagramUpdatedAt: null,
         twitterUpdatedAt: null,
-        tiktokUpdatedAt: null
+        tiktokUpdatedAt: null,
+        youtubeUpdatedAt: null // ✅ ADDED
       }
     });
   }
@@ -39,22 +41,7 @@ export const getSettings = async (req, res) => {
 };
 
 /**
- * Update settings with per-field toggles.
- *
- * Expected request:
- * - If sending JSON (no file): body contains values and fieldsToUpdate array.
- *   Example:
- *    {
- *      "fieldsToUpdate": ["phone","facebook"],
- *      "phone": "+1 111 222 3333",
- *      "facebook": "https://facebook.com/yourpage"
- *    }
- *
- * - If uploading logo file via multipart/form-data:
- *   include fieldsToUpdate[] with "logo" in it, and file field name "logo"
- *
- * Only fields listed in fieldsToUpdate will be changed (and their per-field timestamp).
- * If fieldsToUpdate is missing, controller will update only fields explicitly provided in body.
+ * Update settings with per-field toggles
  */
 export const updateSettings = async (req, res) => {
   try {
@@ -67,7 +54,7 @@ export const updateSettings = async (req, res) => {
 
     const s = await ensureSettings();
 
-    // allowed fields to change
+    // ✅ allowed fields (YouTube added)
     const allowed = [
       "logo",
       "phone",
@@ -76,30 +63,35 @@ export const updateSettings = async (req, res) => {
       "facebook",
       "instagram",
       "twitter",
-      "tiktok"
+      "tiktok",
+      "youtube" // ✅ ADDED
     ];
 
-    // fieldsToUpdate may come as array or comma-separated string
     let fieldsToUpdate = req.body.fieldsToUpdate;
     if (typeof fieldsToUpdate === "string") {
-      try { fieldsToUpdate = JSON.parse(fieldsToUpdate); } catch { fieldsToUpdate = fieldsToUpdate.split(",").map(f=>f.trim()).filter(Boolean); }
+      try {
+        fieldsToUpdate = JSON.parse(fieldsToUpdate);
+      } catch {
+        fieldsToUpdate = fieldsToUpdate
+          .split(",")
+          .map(f => f.trim())
+          .filter(Boolean);
+      }
     }
-    // if absent, we'll treat as "update any provided fields"
-    const doSelective = Array.isArray(fieldsToUpdate) && fieldsToUpdate.length > 0;
+
+    const doSelective =
+      Array.isArray(fieldsToUpdate) && fieldsToUpdate.length > 0;
 
     const now = new Date();
 
-    // helper to set field and meta
     const setField = (field, value) => {
       s.global[field] = value;
-      const metaKey = `${field}UpdatedAt`;
       if (!s.globalMeta) s.globalMeta = {};
-      s.globalMeta[metaKey] = now;
+      s.globalMeta[`${field}UpdatedAt`] = now;
     };
 
-    // 1) handle file upload (logo) if present
+    // 🔹 Logo upload
     if (req.file) {
-      // only update if selective mode is off OR logo included in fieldsToUpdate
       if (!doSelective || fieldsToUpdate.includes("logo")) {
         s.global.logo = `/uploads/settings/${req.file.filename}`;
         if (!s.globalMeta) s.globalMeta = {};
@@ -107,18 +99,14 @@ export const updateSettings = async (req, res) => {
       }
     }
 
-    // 2) handle regular fields
+    // 🔹 Other fields
     for (const key of allowed) {
-      if (key === "logo") continue; // handled above
+      if (key === "logo") continue;
+
       const incoming = req.body[key];
-
-      // ignore undefined fields
       if (typeof incoming === "undefined") continue;
-
-      // selective mode: only update if listed
       if (doSelective && !fieldsToUpdate.includes(key)) continue;
 
-      // apply change and meta
       setField(key, incoming);
     }
 

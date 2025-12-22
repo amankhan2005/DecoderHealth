@@ -1,4 +1,4 @@
-// src/pages/AdminDashboard.jsx
+ // src/pages/AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { fetchDashboard } from "../api/settingsService";
 

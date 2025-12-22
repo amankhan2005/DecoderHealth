@@ -57,7 +57,7 @@ export default function MapSettings() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -68,12 +68,12 @@ export default function MapSettings() {
       <div className="relative z-10 max-w-5xl mx-auto p-6">
         {/* Header with Glass Effect */}
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl shadow-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl shadow-lg mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-green-800 bg-clip-text text-transparent mb-2">Map Settings</h1>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">Map Settings</h1>
           <p className="text-gray-600 text-lg">Configure your location for the interactive map display</p>
         </div>
 
@@ -81,8 +81,8 @@ export default function MapSettings() {
           <div className="flex justify-center items-center h-64 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50">
             <div className="text-center">
               <div className="relative">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-200"></div>
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent absolute top-0"></div>
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-green-200"></div>
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent absolute top-0"></div>
               </div>
               <p className="text-gray-600 mt-4 font-medium">Loading map configuration...</p>
             </div>
@@ -92,7 +92,7 @@ export default function MapSettings() {
             {/* Input Card with Premium Design */}
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -115,7 +115,7 @@ export default function MapSettings() {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="Enter full map address..."
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-orange-200 focus:border-orange-500 transition-all text-gray-700 placeholder-gray-400"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 transition-all text-gray-700 placeholder-gray-400"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function MapSettings() {
               </button>
               <button
                 onClick={saveMap}
-                className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center"
+                className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center"
                 disabled={saving}
               >
                 {saving ? (

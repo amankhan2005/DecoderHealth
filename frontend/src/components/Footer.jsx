@@ -4,7 +4,8 @@
   FaFacebookF,
   FaInstagram,
   FaTwitter,
-  FaRegEnvelope, // ✅ WORKING MAIL ICON
+  FaRegEnvelope,
+  FaYoutube, // ✅ YouTube ICON
 } from "react-icons/fa";
 import { SiTiktok } from "react-icons/si";
 
@@ -17,11 +18,14 @@ export default function Footer() {
   // -------- STATIC LOGO --------
   const logoUrl = defaultLogo;
 
+  // -------- STATIC YOUTUBE --------
+  const youtube = "https://www.youtube.com/@DecoderHealth"; // 🎯 STATIC LINK
+
   // -------- DEFAULT VALUES --------
   const defaultEmail = "info@decoderhealth.com";
   const defaultPhone = "+1 (571) 530-9004";
-  const defaultAddress = "Arlington, WA";
-  const defaultAddressLink = "https://maps.app.goo.gl/Hd9ZWFgmg6h2tHdv8";
+  const defaultAddress = "Aldie, Virginia";
+  const defaultAddressLink = "https://maps.app.goo.gl/f7tX5prHV9WJkJMRA";
 
   const address = settings?.address || defaultAddress;
   const addressLink = settings?.address
@@ -70,9 +74,8 @@ export default function Footer() {
             <li><a href="/about-us" className="hover:text-white">About Us</a></li>
             <li><a href="/team" className="hover:text-white">Team</a></li>
             <li><a href="/careers" className="hover:text-white">Career</a></li>
-             <li><a href="/faq" className="hover:text-white">FAQs</a></li>
+            <li><a href="/faq" className="hover:text-white">FAQs</a></li>
             <li><a href="/contact-us" className="hover:text-white">Contact</a></li>
-            
           </ul>
         </div>
 
@@ -85,7 +88,7 @@ export default function Footer() {
             <li><a href="/services/culturally-responsive-care" className="hover:text-white">Culturally Responsive Care</a></li>
             <li><a href="/services/compassion-respect" className="hover:text-white">Compassion & Respect</a></li>
             <li><a href="/services/evidence-based-aba" className="hover:text-white">Evidence-Based ABA</a></li>
-             <li><a href="/services/flexible-support" className="hover:text-white">Flexible Support</a></li>
+            <li><a href="/services/flexible-support" className="hover:text-white">Flexible Support</a></li>
           </ul>
         </div>
 
@@ -170,14 +173,24 @@ export default function Footer() {
                 <SiTiktok />
               </a>
             )}
+            {/* ✅ STATIC YOUTUBE LINK */}
+            {youtube && (
+              <a
+                href={youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white/10 rounded-md hover:bg-white hover:text-[#0B5ED7] transition"
+              >
+                <FaYoutube />
+              </a>
+            )}
           </div>
         </div>
       </div>
 
       {/* COPYRIGHT */}
       <div className="border-t border-white/20 mt-16 pt-6 text-center text-sm text-white/70">
-        © {new Date().getFullYear()} Decoder Health. All Rights Reserved.{" "}
-        <br className="md:hidden" />
+        © {new Date().getFullYear()} Decoder Health. All Rights Reserved. <br className="md:hidden" />
         Developed by{" "}
         <a
           href="https://www.webieapp.com/"

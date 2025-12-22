@@ -7,7 +7,7 @@ export default function ContactUs() {
 
   const CONTACT_EMAIL = settings?.email || "info@decoderhealth.com";
   const CONTACT_PHONE = settings?.phone || "+1 (571) 530-9004";
-  const CONTACT_ADDRESS = settings?.address || "Arlington, WA";
+  const CONTACT_ADDRESS = settings?.address || "Aldie, Virginia";
 
   const MAP_LINK =
     settings?.mapLink ||
@@ -121,7 +121,7 @@ export default function ContactUs() {
               },
               {
                 icon: MapPin,
-                label: "Visit Us",
+                label: "Address",
                 value: CONTACT_ADDRESS,
                 link: MAP_LINK,
               },
