@@ -51,7 +51,7 @@ export default function AdminDashboard({ creds }) {
             />
             <div className="absolute inset-0 border-4 border-transparent border-t-orange-500 rounded-full animate-spin" />
             <div
-              className="absolute inset-4 border-4 border-transparent border-t-green-500 rounded-full animate-spin"
+              className="absolute inset-4 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"
               style={{
                 animationDuration: "1.4s",
                 animationDirection: "reverse",
@@ -160,7 +160,7 @@ export default function AdminDashboard({ creds }) {
       label: "Careers",
       count: data.careersCount ?? 0,
       subtext: `${data.activeCareers ?? 0} active`,
-      accent: "green",
+      accent: "blue",
       icon: (
         <svg
           className="w-7 h-7"
@@ -195,14 +195,14 @@ export default function AdminDashboard({ creds }) {
       halo: "from-orange-500/20 via-orange-400/10 to-transparent",
       chart: "rgb(251, 146, 60)",
     },
-    green: {
+    blue: {
       badge: darkMode
-        ? "bg-green-900/30 text-green-300 border-green-700/50"
-        : "bg-green-100 text-green-700 border-green-300",
-      icon: "bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg",
-      dot: "bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]",
-      count: darkMode ? "text-green-300" : "text-green-700",
-      halo: "from-green-500/20 via-green-400/10 to-transparent",
+        ? "bg-blue-900/30 text-blue-300 border-blue-700/50"
+        : "bg-blue-100 text-blue-700 border-blue-300",
+      icon: "bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg",
+      dot: "bg-blue-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]",
+      count: darkMode ? "text-blue-300" : "text-blue-700",
+      halo: "from-blue-500/20 via-blue-400/10 to-transparent",
       chart: "rgb(34, 197, 94)",
     },
   };
@@ -215,7 +215,7 @@ export default function AdminDashboard({ creds }) {
     >
       {/* BACKGROUND DECORATION */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
       </div>
 
@@ -361,7 +361,7 @@ export default function AdminDashboard({ creds }) {
                       <span
                         className={`px-3 py-1 text-xs font-bold rounded-full ${
                           s.trend > 0
-                            ? "bg-green-500/20 text-green-400"
+                            ? "bg-blue-500/20 text-blue-400"
                             : "bg-red-500/20 text-red-400"
                         }`}
                       >
@@ -436,7 +436,7 @@ export default function AdminDashboard({ creds }) {
           <Section
             title="Latest Jobs"
             count={`${data.latestJobs?.length ?? 0} Open`}
-            color="green"
+            color="blue"
             items={data.latestJobs}
             type="job"
             darkMode={darkMode}
@@ -455,17 +455,17 @@ function Section({ title, count, color, items, type, darkMode }) {
         ? "border-orange-800/30"
         : "border-orange-200"
       : darkMode
-      ? "border-green-800/30"
-      : "border-green-200";
+      ? "border-blue-800/30"
+      : "border-blue-200";
   const badgeBg =
     color === "orange"
       ? darkMode
         ? "bg-orange-900/30 text-orange-300 border-orange-700/50"
         : "bg-orange-100 text-orange-700 border-orange-300"
       : darkMode
-      ? "bg-green-900/30 text-green-300 border-green-700/50"
-      : "bg-green-100 text-green-700 border-green-300";
-  const dot = color === "orange" ? "bg-orange-500" : "bg-green-500";
+      ? "bg-blue-900/30 text-blue-300 border-blue-700/50"
+      : "bg-blue-100 text-blue-700 border-blue-300";
+  const dot = color === "orange" ? "bg-orange-500" : "bg-blue-500";
   const textColor = darkMode ? "text-white" : "text-gray-900";
   const subTextColor = darkMode ? "text-gray-400" : "text-gray-600";
 
@@ -517,7 +517,7 @@ function Section({ title, count, color, items, type, darkMode }) {
                     <div className="flex items-center gap-4">
                       <div
                         className={`w-12 h-12 rounded-xl ${
-                          color === "orange" ? "bg-orange-500" : "bg-green-500"
+                          color === "orange" ? "bg-orange-500" : "bg-blue-500"
                         } text-white font-bold flex 
                         items-center justify-center text-xl`}
                       >
@@ -532,7 +532,7 @@ function Section({ title, count, color, items, type, darkMode }) {
                           className={`text-sm ${
                             color === "orange"
                               ? "text-orange-400"
-                              : "text-green-400"
+                              : "text-blue-400"
                           }`}
                         >
                           {item?.email || "No email"}
@@ -550,7 +550,7 @@ function Section({ title, count, color, items, type, darkMode }) {
                           } ${
                             color === "orange"
                               ? "text-orange-400"
-                              : "text-green-400"
+                              : "text-blue-400"
                           } font-bold`}
                         >
                           {item.serviceInterest}
@@ -598,7 +598,7 @@ function Section({ title, count, color, items, type, darkMode }) {
                       } ${
                         color === "orange"
                           ? "text-orange-400"
-                          : "text-green-400"
+                          : "text-blue-400"
                       } font-bold`}
                     >
                       📍 {item?.location || "Not specified"}
@@ -609,7 +609,7 @@ function Section({ title, count, color, items, type, darkMode }) {
                         darkMode ? "bg-gray-700/50" : "bg-white/70"
                       } border ${
                         darkMode ? "border-gray-600" : "border-gray-200"
-                      } text-green-400 font-bold`}
+                      } text-blue-400 font-bold`}
                     >
                       🧷 {item?.type || "N/A"}
                     </span>
@@ -635,15 +635,15 @@ function Section({ title, count, color, items, type, darkMode }) {
 
 /* EMPTY STATE COMPONENT */
 function EmptyState({ title, subtitle, color, darkMode }) {
-  const iconColor = color === "orange" ? "text-orange-400" : "text-green-400";
+  const iconColor = color === "orange" ? "text-orange-400" : "text-blue-400";
   const bgColor =
     color === "orange"
       ? darkMode
         ? "bg-orange-900/20"
         : "bg-orange-100"
       : darkMode
-      ? "bg-green-900/20"
-      : "bg-green-100";
+      ? "bg-blue-900/20"
+      : "bg-blue-100";
 
   return (
     <div

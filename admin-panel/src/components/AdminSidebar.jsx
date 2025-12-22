@@ -10,7 +10,7 @@ import {
   FaMapMarkerAlt,
   FaImages,
 } from "react-icons/fa";
-import Logo from "../assets/autism-logo.webp";
+import Logo from "../assets/autism-logo.svg";
 
 const SIDEBAR_WIDTH = {
   mobile: "w-64",
@@ -125,8 +125,8 @@ export default function AdminSidebar({
         ref={sidebarRef}
         className={`
           fixed inset-y-0 left-0 z-[100]
-          bg-green-600
-          text-white shadow-xl border-r border-green-700/40
+          bg-blue-600
+          text-white shadow-xl border-r border-blue-700/40
           transform transition-all duration-300
           flex flex-col overflow-hidden
 
@@ -139,7 +139,7 @@ export default function AdminSidebar({
       >
         {/* Header */}
         <div
-          className={`flex items-center justify-between p-4 border-b border-green-700/40 ${
+          className={`flex items-center justify-between p-4 border-b border-blue-700/40 ${
             isExpanded ? "" : "lg:justify-center"
           }`}
         >
@@ -183,7 +183,7 @@ export default function AdminSidebar({
                     ${
                       isActive
                         ? "bg-yellow-500 shadow text-white"
-                        : "hover:bg-green-600 active:bg-green-600/70"
+                        : "hover:bg-blue-600 active:bg-blue-600/70"
                     }
                     ${isExpanded ? "justify-start gap-3" : "lg:justify-center"}
                     `
@@ -201,9 +201,9 @@ export default function AdminSidebar({
 
         {/* Footer */}
         {isExpanded && (
-          <div className="p-4 border-t border-green-700/40 bg-green-900/30 text-xs text-green-200">
-            <p>© {new Date().getFullYear()} Autism ABA</p>
-            <p className="mt-1 text-green-300">Version 1.0.0</p>
+          <div className="p-4 border-t border-blue-700/40 bg-blue-900/30 text-xs text-blue-200">
+            <p>© {new Date().getFullYear()} Decoder Health</p>
+            <p className="mt-1 text-blue-300">Version 1.0.0</p>
           </div>
         )}
       </aside>

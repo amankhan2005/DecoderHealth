@@ -23,17 +23,18 @@ export default function AdminLogin({ onLogin }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A3F24] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#F5F9FF] via-white to-[#EEF4FF] flex items-center justify-center p-6">
+      
       {/* CARD */}
-      <div className="w-full max-w-md bg-[#23B14D] rounded-3xl shadow-2xl p-10 border border-green-900">
-        
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10 border border-blue-100">
+
         {/* TITLE */}
-        <h2 className="text-4xl font-extrabold text-white text-center mb-2">
+        <h2 className="text-4xl font-extrabold text-[#0B5ED7] text-center mb-2">
           Admin Login
         </h2>
 
-        <p className="text-white/80 text-center mb-8 text-sm tracking-wide">
-          Compassion in Every Sense.
+        <p className="text-gray-500 text-center mb-8 text-sm tracking-wide">
+          Secure access to Decoder Health Dashboard
         </p>
 
         {/* FORM */}
@@ -41,16 +42,22 @@ export default function AdminLogin({ onLogin }) {
 
           {/* USERNAME */}
           <div>
-            <label className="block text-white font-semibold mb-2">
+            <label className="block text-gray-700 font-semibold mb-2">
               Username
             </label>
             <div className="relative">
-              <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80" />
+              <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0B5ED7]/70" />
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-green-700/40 text-white placeholder-white/70 border border-green-200 px-12 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white font-semibold"
+                className="
+                  w-full bg-[#F7FAFF] text-gray-800
+                  border border-blue-200
+                  px-12 py-3 rounded-2xl
+                  focus:outline-none focus:ring-2 focus:ring-[#0B5ED7]
+                  placeholder-gray-400 font-semibold
+                "
                 placeholder="Enter admin username"
               />
             </div>
@@ -58,22 +65,28 @@ export default function AdminLogin({ onLogin }) {
 
           {/* PASSWORD */}
           <div>
-            <label className="block text-white font-semibold mb-2">
+            <label className="block text-gray-700 font-semibold mb-2">
               Password
             </label>
             <div className="relative">
-              <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80" />
+              <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0B5ED7]/70" />
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-green-700/40 text-white placeholder-white/70 border border-green-200 px-12 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white font-semibold"
+                className="
+                  w-full bg-[#F7FAFF] text-gray-800
+                  border border-blue-200
+                  px-12 py-3 rounded-2xl
+                  focus:outline-none focus:ring-2 focus:ring-[#0B5ED7]
+                  placeholder-gray-400 font-semibold
+                "
                 placeholder="Enter admin password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#0B5ED7]"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -85,10 +98,11 @@ export default function AdminLogin({ onLogin }) {
             type="submit"
             disabled={loading}
             className="
-              w-full py-3.5 rounded-2xl 
-              bg-white text-green-800 font-extrabold text-lg 
-              hover:bg-yellow-300 transition-all 
-              shadow-xl hover:shadow-2xl
+              w-full py-3.5 rounded-2xl
+              bg-[#0B5ED7] text-white
+              font-extrabold text-lg
+              hover:bg-[#084298] transition-all
+              shadow-lg hover:shadow-xl
               disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
@@ -97,8 +111,8 @@ export default function AdminLogin({ onLogin }) {
         </form>
 
         {/* FOOTER */}
-        <p className="text-center mt-6 text-white/70 text-sm">
-          Secure Admin Access — PR5-Hearts Network
+        <p className="text-center mt-6 text-gray-400 text-sm">
+          Secure Admin Access — Decoder Health
         </p>
       </div>
     </div>

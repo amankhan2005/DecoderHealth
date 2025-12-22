@@ -61,7 +61,7 @@ export default function AdminHeader({
     <header
       className={`
         fixed top-0 right-0 h-20 md:h-24 w-full z-[900]
-        bg-green-600 shadow-xl
+        bg-blue-600 shadow-xl
         flex items-center justify-between text-white
         px-4 sm:px-6 md:px-8 transition-all duration-300
         ${isOpen ? "lg:left-64" : isExpanded ? "lg:left-64" : "lg:left-20"}
@@ -77,7 +77,7 @@ export default function AdminHeader({
 
       {/* BRAND */}
       <h1 className="font-bold text-xl sm:text-2xl md:text-3xl tracking-wide">
-        PR5-Hearts Admin
+        Decoder Health
       </h1>
 
       {/* RIGHT SIDE */}
@@ -128,7 +128,7 @@ export default function AdminHeader({
       {/* TOP PROGRESS BAR */}
       {loading && (
         <div className="fixed top-0 left-0 w-full h-1 bg-white/20 z-[999]">
-          <div className="h-full bg-green-300 animate-[progress_1.5s_linear_forwards]" />
+          <div className="h-full bg-blue-300 animate-[progress_1.5s_linear_forwards]" />
         </div>
       )}
 
@@ -156,7 +156,7 @@ export default function AdminHeader({
                 type="checkbox"
                 checked={dontAsk}
                 onChange={() => setDontAsk(!dontAsk)}
-                className="mr-2 h-4 w-4 text-green-600 border-gray-300 rounded"
+                className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded"
               />
               <label htmlFor="dontAsk" className="text-sm text-gray-600">
                 Don't ask again
