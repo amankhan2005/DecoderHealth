@@ -41,19 +41,22 @@ app.use(limiter);
 
 // ---------------------- CORS SETUP ----------------------
 // Allowed origins list (add more domains via ALLOWED_ORIGINS env comma-separated)
-const allowedOrigins = [
+ const allowedOrigins = [
   "http://localhost:5173",
-   "http://localhost:5174",
+  "http://localhost:5174",
   "http://localhost:3000",
+
   "https://decoderhealth.netlify.app",
   "https://decoderhealthaba.netlify.app",
-  "https://www.decoderhealth.com",
-  "www.decoderhealth.com",
-  "decoderhealth.com",
 
-  
-  ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(",").map((u) => u.trim()) : []),
+  "https://decoderhealth.com",
+  "https://www.decoderhealth.com",
+
+  ...(process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",").map((u) => u.trim())
+    : []),
 ].filter(Boolean);
+
 
 /**
  * CORS middleware:
